@@ -1,0 +1,63 @@
+From b78398cba9fe03df9b40838024fd4985d2876918 Mon Sep 17 00:00:00 2001
+From: Pekka Vuorela <pekka.vuorela@jolla.com>
+Date: Tue, 3 Sep 2019 11:40:21 +0300
+Subject: [PATCH] Disable gtkdoc
+
+---
+ Makefile.am  | 2 +-
+ autogen.sh   | 2 +-
+ configure.ac | 5 -----
+ 3 files changed, 2 insertions(+), 7 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index 4b482f3..81026d9 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -2,7 +2,7 @@ ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
+ 
+ DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
+ 
+-SUBDIRS = src csslint docs tests win32
++SUBDIRS = src csslint tests win32
+ 
+ PKG_CONFIG_FILE_UNINSTALLED=libcroco-@LIBCROCO_MAJOR_VERSION@.@LIBCROCO_MINOR_VERSION@-uninstalled.pc
+ PKG_CONFIG_FILE=libcroco-@LIBCROCO_MAJOR_VERSION@.@LIBCROCO_MINOR_VERSION@.pc
+diff --git a/autogen.sh b/autogen.sh
+index 8a7d049..03ab2ba 100755
+--- a/autogen.sh
++++ b/autogen.sh
+@@ -22,7 +22,7 @@ if [ "$#" = 0 -a "x$NOCONFIGURE" = "x" ]; then
+ fi
+ 
+ aclocal --install || exit 1
+-gtkdocize --copy || exit 1
++#gtkdocize --copy || exit 1
+ autoreconf --verbose --force --install -Wno-portability || exit 1
+ 
+ cd $olddir
+diff --git a/configure.ac b/configure.ac
+index 7b0495b..0a0ba73 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -61,8 +61,6 @@ case "$host" in
+ esac
+ AM_CONDITIONAL(PLATFORM_WIN32, [test "$platform_win32" = "yes"])
+ 
+-GTK_DOC_CHECK([1.0])
+-
+ dnl **************************************************************
+ dnl check for the different --enable-option=val  
+ dnl messages issued by the user
+@@ -162,9 +160,6 @@ win32/vs11/Makefile
+ win32/vs12/Makefile
+ win32/vs14/Makefile
+ win32/vs15/Makefile
+-docs/Makefile
+-docs/examples/Makefile
+-docs/reference/Makefile
+ tests/Makefile
+ tests/test-inputs/Makefile
+ tests/test-output-refs/Makefile
+-- 
+2.21.0
+
