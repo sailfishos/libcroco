@@ -6,6 +6,7 @@ License:          LGPLv2
 Source:           http://download.gnome.org/sources/libcroco/0.6/%{name}-%{version}.tar.xz
 
 Patch1:           0001-Disable-gtkdoc.patch
+Patch2:           0002-multilib.patch
 
 BuildRequires:    pkgconfig
 BuildRequires:    glib2-devel
@@ -23,11 +24,10 @@ This package provides the necessary development libraries and include
 files to allow you to develop with libcroco.
 
 %prep
-%setup -q -n %{name}-%{version}/%{name}
-%patch1 -p1
+%autosetup -n %{name}-%{version}/%{name} -p1
 
 %build
-./autogen.sh --disable-static --prefix=%{_prefix}
+./autogen.sh --disable-static --prefix=%{_prefix} --libdir=%{_libdir}
 make %{?_smp_mflags} CFLAGS="$CFLAGS -fno-strict-aliasing"
 
 %install
